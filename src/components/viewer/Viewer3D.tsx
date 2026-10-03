@@ -6,6 +6,7 @@ import { CAMERA_PRESETS } from '../../lib/constants';
 import * as THREE from 'three';
 import { LaptopModel } from './LaptopModel';
 import CameraControls from '../configurator/CameraControls';
+import { useDark } from '../../lib/theme';
 
 const presetPoint = new THREE.Vector3();
 const STAGE_DROP = 0.28;
@@ -48,13 +49,15 @@ function UnderFill() {
 }
 
 function SceneEnvironment() {
+  const dark = useDark();
+
   return (
     <>
       <Environment preset="city" />
-      <ambientLight intensity={0.5} />
+      <ambientLight intensity={dark ? 0.38 : 0.5} />
       <directionalLight
         position={[4, 9, 5]}
-        intensity={1}
+        intensity={dark ? 1.35 : 1}
         castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0002}
@@ -63,7 +66,7 @@ function SceneEnvironment() {
       <UnderFill />
       <ContactShadows
         position={[0, -0.64 - STAGE_DROP, 0]}
-        opacity={0.32}
+        opacity={dark ? 0.5 : 0.32}
         scale={7}
         blur={2}
         far={5}

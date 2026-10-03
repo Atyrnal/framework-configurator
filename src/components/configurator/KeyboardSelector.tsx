@@ -36,7 +36,7 @@ export default function KeyboardSelector() {
               aria-pressed={selectedOption}
               onClick={() => setKeyboardColor(option.id)}
               className={`flex w-full items-center gap-2.5 rounded-lg px-2 py-1.5 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                selectedOption ? 'bg-stage' : 'hover:bg-black/[0.03]'
+                selectedOption ? 'bg-stage' : 'hover:bg-ink/5'
               }`}
             >
               <span className="flex shrink-0 gap-0.5 rounded-md bg-white p-1" aria-hidden="true">

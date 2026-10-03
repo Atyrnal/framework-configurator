@@ -20,7 +20,7 @@ export function ColorSwatch({ name, finish, selected, onSelect }: ColorSwatchPro
       className="flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       <span
-        className={`h-5 w-5 rounded-full border border-black/10 ${
+        className={`h-5 w-5 rounded-full border border-ink/10 ${
           selected ? 'ring-1 ring-ink ring-offset-2 ring-offset-paper' : ''
         }`}
         style={{

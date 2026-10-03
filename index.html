@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="Configure your Framework Laptop with real-time 3D visualization" />
     <meta name="theme-color" content="#f3f1ee" />
+    <script>
+      try {
+        if (localStorage.getItem('theme') === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#121110');
+        }
+      } catch (e) {}
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />

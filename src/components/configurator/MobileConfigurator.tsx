@@ -87,7 +87,7 @@ export default function MobileConfigurator() {
 
   return (
     <section
-      className="absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden border-t border-line bg-paper shadow-[0_-12px_32px_rgba(23,22,20,0.06)] lg:hidden"
+      className="absolute inset-x-0 bottom-0 z-20 flex flex-col overflow-hidden border-t border-line bg-paper shadow-sheet lg:hidden"
       style={{ height: sheetHeight }}
     >
       <div ref={headerRef} className="shrink-0 px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
@@ -104,7 +104,7 @@ export default function MobileConfigurator() {
           onPointerCancel={onPointerUp}
           className="flex w-full cursor-ns-resize touch-none justify-center py-2.5"
         >
-          <span className="h-1 w-8 rounded-full bg-black/20" />
+          <span className="h-1 w-8 rounded-full bg-ink/20" />
         </div>
         <div className="flex items-center gap-3">
           <div className="min-w-0 flex-1">
@@ -115,7 +115,7 @@ export default function MobileConfigurator() {
             type="button"
             onClick={() => (expanded ? closeSheet() : openSheet())}
             className={`shrink-0 rounded-full px-3.5 py-2 text-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-              expanded ? 'bg-stage text-ink' : 'bg-ink text-white'
+              expanded ? 'bg-stage text-ink' : 'bg-ink text-paper'
             }`}
           >
             {expanded ? 'Done' : 'Customize'}

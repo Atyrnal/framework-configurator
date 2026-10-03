@@ -101,10 +101,10 @@ function ViewButton({
       aria-pressed={pressed}
       onClick={onClick}
       className={`group relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-        marked ? 'bg-ink text-white' : 'text-ink/70 hover:bg-black/[0.04] hover:text-ink'
+        marked ? 'bg-ink text-paper' : 'text-ink/70 hover:bg-ink/5 hover:text-ink'
       }`}
     >
-      <span className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-1.5 py-0.5 text-[10px] text-white opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
+      <span className="pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-1.5 py-0.5 text-[10px] text-paper opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
         {label}
       </span>
       {children}
@@ -126,7 +126,7 @@ export default function CameraControls() {
 
   return (
     <div className="pointer-events-none absolute inset-x-0 bottom-3 z-10 flex justify-center px-3 lg:bottom-5">
-      <div className="pointer-events-auto flex items-center gap-0.5 rounded-full border border-black/[0.06] bg-white/80 p-1 shadow-dock backdrop-blur-xl" aria-label="View controls">
+      <div className="pointer-events-auto flex items-center gap-0.5 rounded-full border border-ink/10 bg-paper/80 p-1 shadow-dock backdrop-blur-xl" aria-label="View controls">
         {presets.map((preset) => (
           <ViewButton
             key={preset.id}
@@ -138,7 +138,7 @@ export default function CameraControls() {
             <ViewIcon view={preset.id} />
           </ViewButton>
         ))}
-        <span className="mx-1 h-4 w-px shrink-0 bg-black/10" />
+        <span className="mx-1 h-4 w-px shrink-0 bg-ink/10" />
         <ViewButton
           label={isOpen ? 'Close' : 'Open'}
           pressed={isOpen}

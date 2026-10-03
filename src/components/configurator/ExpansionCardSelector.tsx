@@ -48,10 +48,10 @@ export default function ExpansionCardSelector() {
                     aria-pressed={selected}
                     onClick={() => setActiveSlot(slotId)}
                     className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-                      selected ? 'bg-stage' : 'hover:bg-black/[0.03]'
+                      selected ? 'bg-stage' : 'hover:bg-ink/5'
                     }`}
                   >
-                    <span className="h-3 w-3 shrink-0 rounded-full border border-black/10" style={{ background: swatch }} />
+                    <span className="h-3 w-3 shrink-0 rounded-full border border-ink/10" style={{ background: swatch }} />
                     <span className="min-w-0">
                       <span className="block text-[10px] text-muted">{SLOT_PLACE[slotId]}</span>
                       <span className={`block truncate text-[13px] leading-tight ${entry.card === 'empty' ? 'text-muted' : 'text-ink'}`}>{name}</span>
@@ -76,7 +76,7 @@ export default function ExpansionCardSelector() {
             onClick={() => setExpansionCard(slot.id, card.id)}
             className={`shrink-0 rounded-full px-2.5 py-1 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
               slot.card === card.id
-                ? 'bg-ink text-white'
+                ? 'bg-ink text-paper'
                 : 'text-muted hover:text-ink'
             }`}
           >

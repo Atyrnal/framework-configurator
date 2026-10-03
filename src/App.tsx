@@ -2,6 +2,7 @@ import Viewer3D from './components/viewer/Viewer3D';
 import ConfiguratorSidebar from './components/configurator/ConfiguratorSidebar';
 import MobileConfigurator from './components/configurator/MobileConfigurator';
 import { GithubLink } from './components/SiteLinks';
+import { ThemeToggle } from './components/ThemeToggle';
 
 export default function App() {
   return (
@@ -10,8 +11,9 @@ export default function App() {
         <ConfiguratorSidebar />
       </aside>
       <main className="relative h-full min-w-0 overflow-hidden lg:flex-1">
-        <div className="absolute left-[max(0.75rem,env(safe-area-inset-left))] top-[max(0.75rem,env(safe-area-inset-top))] z-30 lg:hidden">
+        <div className="absolute left-[max(0.75rem,env(safe-area-inset-left))] top-[max(0.75rem,env(safe-area-inset-top))] z-30 flex items-center gap-2 lg:hidden">
           <GithubLink floating />
+          <ThemeToggle floating />
         </div>
         <Viewer3D />
       </main>

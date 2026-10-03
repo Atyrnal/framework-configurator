@@ -2,8 +2,6 @@ import { useEffect, useState, useSyncExternalStore, type ReactNode } from 'react
 import { createPortal } from 'react-dom';
 import { useConfiguratorStore } from '../../store/configuratorStore';
 
-const STAGE = '#f3f1ee';
-
 type ActionIconName = 'save' | 'link' | 'reset';
 type ExportMode = 'stage' | 'transparent';
 
@@ -52,7 +50,7 @@ function ActionIcon({ name }: { name: ActionIconName }) {
 function caption(mode: ExportMode) {
   switch (mode) {
     case 'stage':
-      return 'Keeps the gray stage behind the laptop, the way it looks on the page.';
+      return 'Keeps the stage behind the laptop, the way it looks on the page.';
     case 'transparent':
       return 'Removes the stage. The file background is transparent.';
     default: {
@@ -60,6 +58,15 @@ function caption(mode: ExportMode) {
       return unreachable;
     }
   }
+}
+
+function stageFill() {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue('--stage').trim();
+  const parts = raw.split(/\s+/).map(Number);
+  if (parts.length === 3 && parts.every((part) => Number.isFinite(part))) {
+    return `rgb(${parts[0]} ${parts[1]} ${parts[2]})`;
+  }
+  return '#f3f1ee';
 }
 
 function captureExports(): { stage: string; transparent: string } | null {
@@ -71,7 +78,7 @@ function captureExports(): { stage: string; transparent: string } | null {
   stageCanvas.height = canvas.height;
   const stageCtx = stageCanvas.getContext('2d');
   if (!stageCtx) return null;
-  stageCtx.fillStyle = STAGE;
+  stageCtx.fillStyle = stageFill();
   stageCtx.fillRect(0, 0, stageCanvas.width, stageCanvas.height);
   stageCtx.drawImage(canvas, 0, 0);
 
@@ -151,7 +158,7 @@ function ExportPreview({
   const option = 'h-8 rounded-lg text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/30 p-3 sm:items-center" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-3 sm:items-center" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
@@ -162,10 +169,10 @@ function ExportPreview({
         <h2 id="export-title" className="text-[15px] font-medium tracking-tight text-ink">Save image</h2>
         <p className="mt-1 text-xs leading-relaxed text-muted">{caption(mode)}</p>
         <div role="radiogroup" aria-label="Background" className="mt-3 grid grid-cols-2 gap-1 rounded-xl bg-stage p-1">
-          <button type="button" role="radio" aria-checked={mode === 'stage'} onClick={() => setMode('stage')} className={`${option} ${mode === 'stage' ? 'bg-ink text-white' : 'text-muted'}`}>
+          <button type="button" role="radio" aria-checked={mode === 'stage'} onClick={() => setMode('stage')} className={`${option} ${mode === 'stage' ? 'bg-ink text-paper' : 'text-muted'}`}>
             With background
           </button>
-          <button type="button" role="radio" aria-checked={mode === 'transparent'} onClick={() => setMode('transparent')} className={`${option} ${mode === 'transparent' ? 'bg-ink text-white' : 'text-muted'}`}>
+          <button type="button" role="radio" aria-checked={mode === 'transparent'} onClick={() => setMode('transparent')} className={`${option} ${mode === 'transparent' ? 'bg-ink text-paper' : 'text-muted'}`}>
             Transparent
           </button>
         </div>
@@ -182,7 +189,7 @@ function ExportPreview({
               downloadPng(url);
               onClose();
             }}
-            className="rounded-full bg-ink px-3.5 py-2 text-[13px] text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="rounded-full bg-ink px-3.5 py-2 text-[13px] text-paper focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             Download
           </button>
@@ -224,7 +231,7 @@ export default function ActionButtons() {
     if (captured) openShots(captured);
   };
 
-  const item = 'flex h-9 items-center gap-2 rounded-lg bg-stage px-2.5 text-left text-[12px] text-ink transition hover:bg-black/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
+  const item = 'flex h-9 items-center gap-2 rounded-lg bg-stage px-2.5 text-left text-[12px] text-ink transition hover:bg-ink/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
 
   return (
     <>

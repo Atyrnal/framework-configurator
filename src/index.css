@@ -8,16 +8,40 @@ body,
   height: 100%;
 }
 
+:root {
+  --ink: 23 22 20;
+  --paper: 255 252 249;
+  --stage: 243 241 238;
+  --line: 230 227 222;
+  --muted: 139 134 128;
+  --accent: 23 22 20;
+  --dock: 0 8px 28px rgb(23 22 20 / 0.08);
+  --sheet-shadow: 0 -12px 32px rgb(23 22 20 / 0.06);
+  color-scheme: light;
+}
+
+.dark {
+  --ink: 243 240 234;
+  --paper: 30 29 27;
+  --stage: 18 17 16;
+  --line: 52 50 46;
+  --muted: 163 158 150;
+  --accent: 243 240 234;
+  --dock: 0 8px 28px rgb(0 0 0 / 0.4);
+  --sheet-shadow: 0 -12px 32px rgb(0 0 0 / 0.45);
+  color-scheme: dark;
+}
+
 body {
   margin: 0;
-  background: #f3f1ee;
-  color: #171614;
+  background: rgb(var(--stage));
+  color: rgb(var(--ink));
   -webkit-font-smoothing: antialiased;
 }
 
 .panel-scroll {
   scrollbar-width: thin;
-  scrollbar-color: #d9d5cf transparent;
+  scrollbar-color: rgb(var(--line)) transparent;
 }
 
 .panel-scroll::-webkit-scrollbar {
@@ -26,7 +50,7 @@ body {
 }
 
 .panel-scroll::-webkit-scrollbar-thumb {
-  background: #d9d5cf;
+  background: rgb(var(--line));
   border-radius: 999px;
 }
 

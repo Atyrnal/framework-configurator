@@ -17,9 +17,9 @@ export function GithubLink({ floating = false }: { floating?: boolean }) {
         target="_blank"
         rel="noreferrer"
         aria-label="GitHub"
-        className="group relative flex h-8 w-8 items-center justify-center rounded-full border border-black/[0.06] bg-white/80 text-ink/80 shadow-dock backdrop-blur-xl transition hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        className="group relative flex h-8 w-8 items-center justify-center rounded-full border border-ink/10 bg-paper/80 text-ink/80 shadow-dock backdrop-blur-xl transition hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
       >
-        <span className="pointer-events-none absolute left-1/2 top-[calc(100%+8px)] z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-1.5 py-0.5 text-[10px] text-white opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
+        <span className="pointer-events-none absolute left-1/2 top-[calc(100%+8px)] z-20 -translate-x-1/2 whitespace-nowrap rounded-md bg-ink px-1.5 py-0.5 text-[10px] text-paper opacity-0 transition group-hover:opacity-100 group-focus-visible:opacity-100">
           GitHub
         </span>
         <GithubIcon />
@@ -32,7 +32,7 @@ export function GithubLink({ floating = false }: { floating?: boolean }) {
       href={REPO_URL}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full px-2 py-1.5 text-[13px] text-ink/70 transition hover:bg-black/[0.04] hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+      className="inline-flex items-center gap-2 whitespace-nowrap rounded-full px-2 py-1.5 text-[13px] text-ink/70 transition hover:bg-ink/5 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
     >
       <GithubIcon />
       durguto/framework-configurator
