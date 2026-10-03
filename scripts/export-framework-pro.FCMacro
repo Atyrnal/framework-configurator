@@ -1,0 +1,30 @@
+import os
+import traceback
+
+import FreeCAD as App
+import ImportGui
+
+
+source = "/Users/ogi/framework-configurator/models-source/framework-laptop-13-pro.stp"
+target = "/Users/ogi/framework-configurator/models-source/framework-laptop-13-pro-full.glb"
+log_path = "/Users/ogi/framework-configurator/models-source/framework-laptop-13-pro-export.log"
+
+try:
+    ImportGui.open(source)
+    doc = App.ActiveDocument
+    if doc is None:
+        raise RuntimeError("FreeCAD opened the STEP file without activating a document.")
+    doc.recompute()
+
+    # Export the imported assembly objects so the glTF keeps component names,
+    # transforms, and the source CAD colors where FreeCAD exposes them.
+    export_objects = [obj for obj in doc.Objects if obj.isDerivedFrom("Part::Feature") or obj.isDerivedFrom("App::Link")]
+    if not export_objects:
+        raise RuntimeError("FreeCAD did not find exportable assembly geometry.")
+
+    ImportGui.export(export_objects, target)
+    with open(log_path, "w") as log_file:
+        log_file.write("Exported {} objects from {} to {}\n".format(len(export_objects), source, target))
+except Exception:
+    with open(log_path, "w") as log_file:
+        log_file.write(traceback.format_exc())
