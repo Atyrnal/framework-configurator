@@ -93,7 +93,7 @@ export interface ConfiguratorState {
   keyboardColor: KeyboardColor;
   expansionCards: ExpansionSlot[];
   isOpen: boolean;
-  cameraPreset: CameraPreset;
+  cameraPreset: CameraPreset | null;
   environment: EnvironmentPreset;
 }
 

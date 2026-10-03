@@ -2,22 +2,42 @@ import ModelSelector from './ModelSelector';
 import BezelSelector from './BezelSelector';
 import KeyboardSelector from './KeyboardSelector';
 import ExpansionCardSelector from './ExpansionCardSelector';
-import ActionButtons from './ActionButtons';
+import ActionButtons, { ExportHost } from './ActionButtons';
+import { DurgutoLink, GithubLink } from '../SiteLinks';
 
-export default function ConfiguratorSidebar() {
+interface ConfiguratorSidebarProps {
+  compact?: boolean;
+}
+
+export default function ConfiguratorSidebar({ compact = false }: ConfiguratorSidebarProps) {
   return (
-    <div className="flex h-full w-[272px] shrink-0 flex-col border-r border-zinc-200 bg-white/95 backdrop-blur-sm">
-      <div className="border-b border-zinc-200 px-4 py-3">
-        <h1 className="text-base font-semibold tracking-tight text-zinc-900">Framework</h1>
-        <p className="text-[11px] text-zinc-500">Configure your laptop</p>
-      </div>
-      <div className="flex-1 space-y-5 overflow-y-auto px-4 py-4">
+    <div className="flex h-full min-h-0 flex-1 flex-col bg-paper">
+      {!compact && (
+        <div className="flex items-center px-2.5 pt-2.5">
+          <GithubLink />
+        </div>
+      )}
+      <div className="panel-scroll min-h-0 flex-1 space-y-6 overflow-y-auto overscroll-contain px-4 py-4">
         <ModelSelector />
         <BezelSelector />
         <KeyboardSelector />
         <ExpansionCardSelector />
-        <ActionButtons />
+        {compact && (
+          <>
+            <ActionButtons />
+            <DurgutoLink />
+          </>
+        )}
       </div>
+      {!compact && <ExportHost />}
+      {!compact && (
+        <footer className="border-t border-line px-4 py-3">
+          <ActionButtons />
+          <div className="mt-3">
+            <DurgutoLink />
+          </div>
+        </footer>
+      )}
     </div>
   );
 }

@@ -28,25 +28,25 @@ const TOUCHPAD_COLOR = '#242628';
 function installBezelGrain(material: THREE.MeshPhysicalMaterial, enabled: boolean) {
   material.onBeforeCompile = enabled
     ? (shader) => {
-        shader.vertexShader = shader.vertexShader
-          .replace('#include <common>', '#include <common>\nvarying vec3 vBezelPos;')
-          .replace('#include <begin_vertex>', '#include <begin_vertex>\nvBezelPos = position;');
-        shader.fragmentShader = shader.fragmentShader
-          .replace('#include <common>', '#include <common>\nvarying vec3 vBezelPos;')
-          .replace(
-            '#include <normal_fragment_maps>',
-            `#include <normal_fragment_maps>
+      shader.vertexShader = shader.vertexShader
+        .replace('#include <common>', '#include <common>\nvarying vec3 vBezelPos;')
+        .replace('#include <begin_vertex>', '#include <begin_vertex>\nvBezelPos = position;');
+      shader.fragmentShader = shader.fragmentShader
+        .replace('#include <common>', '#include <common>\nvarying vec3 vBezelPos;')
+        .replace(
+          '#include <normal_fragment_maps>',
+          `#include <normal_fragment_maps>
              float bezelRib = sin(vBezelPos.y * 7800.0);
              float bezelGrain = sin(vBezelPos.x * 5200.0) * sin(vBezelPos.y * 3600.0);
              normal = normalize(normal + vec3(bezelGrain * 0.08, bezelRib * 0.16, 0.0));`,
-          )
-          .replace(
-            '#include <color_fragment>',
-            `#include <color_fragment>
+        )
+        .replace(
+          '#include <color_fragment>',
+          `#include <color_fragment>
              float bezelStripe = sin(vBezelPos.y * 7800.0) * 0.5 + 0.5;
              diffuseColor.rgb *= mix(0.78, 1.0, bezelStripe);`,
-          );
-      }
+        );
+    }
     : () => undefined;
   material.customProgramCacheKey = () => (enabled ? 'bezel-grain-v4' : 'bezel-solid');
   material.normalMap = null;
@@ -258,10 +258,16 @@ function CardPort({ type, side }: { type: ExpansionCardType; side: -1 | 1 }) {
       );
     case 'sd-card':
       return (
-        <mesh position={[x, 0, 0.0006]}>
-          <boxGeometry args={[0.00035, 0.016, 0.0016]} />
-          {cavity}
-        </mesh>
+        <group>
+          <mesh position={[-side * 0.0012, 0, 0.0004]}>
+            <boxGeometry args={[0.0024, 0.014, 0.0015]} />
+            {cavity}
+          </mesh>
+          <mesh position={[-side * 0.0026, 0, 0.0004]}>
+            <boxGeometry args={[0.00045, 0.016, 0.0022]} />
+            {cavity}
+          </mesh>
+        </group>
       );
     case 'microsd':
       return (
@@ -272,10 +278,16 @@ function CardPort({ type, side }: { type: ExpansionCardType; side: -1 | 1 }) {
       );
     case 'audio-jack':
       return (
-        <mesh position={[x, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
-          <cylinderGeometry args={[0.0018, 0.0018, 0.0005, 20]} />
-          {cavity}
-        </mesh>
+        <group>
+          <mesh position={[-side * 0.0015, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.0017, 0.0017, 0.003, 24]} />
+            {cavity}
+          </mesh>
+          <mesh position={[-side * 0.0031, 0, 0]} rotation={[0, 0, Math.PI / 2]}>
+            <cylinderGeometry args={[0.00205, 0.00205, 0.0004, 24]} />
+            {cavity}
+          </mesh>
+        </group>
       );
     default: {
       const unreachable: never = type;
@@ -334,16 +346,54 @@ function CardCircuit() {
   );
 }
 
+const SOCKET_COLOR = '#141618';
+
+function ChassisPorts() {
+  return (
+    <group>
+      {/* 3.5 mm jack in the left side wall. The disk is wider than the bore and
+          sits just behind the outer face, so an angled view cannot see past it. */}
+      <mesh position={[-0.1464, 0.1135, 0.0067]} rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.0034, 0.0034, 0.0024, 28]} />
+        <meshStandardMaterial color={SOCKET_COLOR} roughness={0.72} metalness={0.25} />
+      </mesh>
+      {/* Thin SD slot in the side wall, further forward. Both sides are open in the CAD. */}
+      {([-1, 1] as const).map((side) => (
+        <mesh key={`sd-${side}`} position={[side * 0.1462, 0.1765, 0.0039]}>
+          <boxGeometry args={[0.0022, 0.042, 0.0024]} />
+          <meshStandardMaterial color={SOCKET_COLOR} roughness={0.72} metalness={0.25} />
+        </mesh>
+      ))}
+      {/* Lock-button opening on the bottom, in the bridge between the two card bays. */}
+      {([-1, 1] as const).map((side) => (
+        <mesh key={`lock-${side}`} position={[side * 0.1188, 0.0632, 0.0087]}>
+          <boxGeometry args={[0.0054, 0.0066, 0.0018]} />
+          <meshStandardMaterial color={SOCKET_COLOR} roughness={0.72} metalness={0.25} />
+        </mesh>
+      ))}
+    </group>
+  );
+}
+
 function ExpansionCards({ slots }: { slots: ExpansionSlot[] }) {
   return (
     <group>
       {slots.map(({ id, card, color }) => {
-        if (card === 'empty') return null;
-        const finish = CARD_FINISHES[color].finish;
         const side = id < 2 ? -1 : 1;
         const y = SLOT_Y[id % 2];
-        const x = side * ((CARD_INNER_X + CARD_OUTER_X) / 2);
         const z = (CARD_Z0 + CARD_Z1) / 2;
+        if (card === 'empty') {
+          // Inner USB-C opening in the bay bracket, not the outer chassis cutout.
+          const socketY = id % 2 === 0 ? 0.043 : 0.083;
+          return (
+            <mesh key={id} position={[side * 0.1149, socketY, 0.007]}>
+              <boxGeometry args={[0.0016, 0.014, 0.0042]} />
+              <meshStandardMaterial color={SOCKET_COLOR} roughness={0.72} metalness={0.25} />
+            </mesh>
+          );
+        }
+        const finish = CARD_FINISHES[color].finish;
+        const x = side * ((CARD_INNER_X + CARD_OUTER_X) / 2);
         const showCircuit = finish.transmission > 0.05;
 
         return (
@@ -545,6 +595,7 @@ export function LaptopModel() {
         />
       </mesh>
       <KeyboardDecals caps={keycaps} color={keyboardColor} />
+      <ChassisPorts />
       <ExpansionCards slots={expansionCards} />
       {/* Sits inside the bottom shell so the vent slots read as dark openings
           instead of a view into the keyboard and brackets. */}

@@ -1,4 +1,4 @@
-import { Suspense, useRef, useEffect } from 'react';
+import { Suspense, useRef, useEffect, type ComponentRef, type RefObject } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, Html } from '@react-three/drei';
 import { useConfiguratorStore } from '../../store/configuratorStore';
@@ -7,22 +7,30 @@ import * as THREE from 'three';
 import { LaptopModel } from './LaptopModel';
 import CameraControls from '../configurator/CameraControls';
 
-function CameraRig() {
+const presetPoint = new THREE.Vector3();
+const STAGE_DROP = 0.28;
+
+function CameraRig({ controls }: { controls: RefObject<ComponentRef<typeof OrbitControls> | null> }) {
   const { cameraPreset } = useConfiguratorStore();
-  const targetPosition = useRef(CAMERA_PRESETS[cameraPreset]);
+  const animating = useRef(false);
 
   useEffect(() => {
-    targetPosition.current = CAMERA_PRESETS[cameraPreset];
+    animating.current = cameraPreset !== null;
   }, [cameraPreset]);
 
   useFrame((state, delta) => {
-    const target = targetPosition.current;
-    const camera = state.camera;
-    camera.position.x += (target.x - camera.position.x) * 5 * delta;
-    camera.position.y += (target.y - camera.position.y) * 5 * delta;
-    camera.position.z += (target.z - camera.position.z) * 5 * delta;
-    camera.up.set(0, 1, 0);
-    camera.lookAt(0, 0, 0);
+    const orbit = controls.current;
+    if (!animating.current || !orbit || cameraPreset === null) return;
+    const preset = CAMERA_PRESETS[cameraPreset];
+    presetPoint.set(preset.x, preset.y, preset.z);
+    const step = 1 - Math.exp(-8 * delta);
+    state.camera.position.lerp(presetPoint, step);
+    if (state.camera.position.distanceTo(presetPoint) < 0.04) {
+      state.camera.position.copy(presetPoint);
+      animating.current = false;
+    }
+    orbit.target.set(0, 0, 0);
+    orbit.update();
   });
 
   return null;
@@ -54,8 +62,8 @@ function SceneEnvironment() {
       />
       <UnderFill />
       <ContactShadows
-        position={[0, -0.64, 0]}
-        opacity={0.5}
+        position={[0, -0.64 - STAGE_DROP, 0]}
+        opacity={0.32}
         scale={7}
         blur={2}
         far={5}
@@ -67,8 +75,11 @@ function SceneEnvironment() {
 }
 
 export default function Viewer3D() {
+  const controls = useRef<ComponentRef<typeof OrbitControls>>(null);
+  const releaseCamera = useConfiguratorStore((state) => state.releaseCamera);
+
   return (
-    <div className="relative w-full h-full">
+    <div className="relative h-full w-full bg-stage max-lg:h-[calc(100%-var(--sheet,0px))]">
       <CameraControls />
       <Canvas
         shadows
@@ -76,17 +87,29 @@ export default function Viewer3D() {
         gl={{ antialias: true, alpha: true, preserveDrawingBuffer: true }}
         dpr={[1, 2]}
       >
-        <CameraRig />
+        <CameraRig controls={controls} />
         <SceneEnvironment />
-        <Suspense fallback={<Html center className="whitespace-nowrap rounded-md bg-white/90 px-4 py-2 text-sm text-gray-600 shadow">Loading Framework Laptop 13 Pro…</Html>}>
-          <LaptopModel />
+        <Suspense fallback={<Html center className="whitespace-nowrap rounded-full border border-line bg-paper px-3 py-1.5 text-xs text-muted shadow-dock">Loading Laptop 13 Pro…</Html>}>
+          <group position={[0, -STAGE_DROP, 0]}>
+            <LaptopModel />
+          </group>
         </Suspense>
         <OrbitControls
+          ref={controls}
           enableDamping
-          dampingFactor={0.05}
-          minDistance={2}
-          maxDistance={10}
+          dampingFactor={0.08}
+          enablePan
+          enableZoom
+          enableRotate
+          screenSpacePanning
+          zoomToCursor
+          minDistance={0.9}
+          maxDistance={14}
+          zoomSpeed={0.85}
+          panSpeed={0.9}
+          rotateSpeed={0.75}
           maxPolarAngle={Math.PI}
+          onStart={releaseCamera}
         />
       </Canvas>
     </div>

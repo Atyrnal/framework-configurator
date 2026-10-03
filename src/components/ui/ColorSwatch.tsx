@@ -17,14 +17,18 @@ export function ColorSwatch({ name, finish, selected, onSelect }: ColorSwatchPro
       aria-label={name}
       aria-pressed={selected}
       onClick={onSelect}
-      className={`h-6 w-6 shrink-0 rounded-full border transition-shadow ${
-        selected ? 'border-zinc-900 ring-2 ring-orange-500 ring-offset-1' : 'border-black/15 hover:border-zinc-400'
-      }`}
-      style={{
-        background: glassy
-          ? `linear-gradient(145deg, ${finish.color}ee, ${finish.color}66 58%, rgba(255,255,255,0.85))`
-          : finish.color,
-      }}
-    />
+      className="flex h-8 w-8 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+    >
+      <span
+        className={`h-5 w-5 rounded-full border border-black/10 ${
+          selected ? 'ring-1 ring-ink ring-offset-2 ring-offset-paper' : ''
+        }`}
+        style={{
+          background: glassy
+            ? `linear-gradient(145deg, ${finish.color}ee, ${finish.color}66 58%, rgba(255,255,255,0.9))`
+            : finish.color,
+        }}
+      />
+    </button>
   );
 }

@@ -70,6 +70,7 @@ interface ConfiguratorActions {
   setExpansionCardColor: (slotId: number, color: CardFinishId) => void;
   setIsOpen: (isOpen: boolean) => void;
   setCameraPreset: (preset: CameraPreset) => void;
+  releaseCamera: () => void;
   setEnvironment: (environment: EnvironmentPreset) => void;
   resetConfiguration: () => void;
 }

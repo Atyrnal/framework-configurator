@@ -1,0 +1,30 @@
+name: Bug report
+description: Something in the configurator is wrong.
+title: ""
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what you saw instead.
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Configuration URL
+      description: The address bar after you reproduced it, if you have one.
+      placeholder: https://framework.durguto.com/?bezel=black&keyboard=graphite
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true

@@ -65,7 +65,7 @@ function matteClear(color: string, attenuationColor: string, attenuationDistance
 
 export const BEZEL_OPTIONS: { id: BezelColor; name: string; finish: SurfaceFinish }[] = [
   { id: 'black', name: 'Black', finish: solid('#1c1c1c', 0.04, 0.55, 0.15) },
-  { id: 'red', name: 'Red', finish: solid('#e10600', 0.04, 0.48, 0.2) },
+  { id: 'red', name: 'Red', finish: solid('#a43133', 0.04, 0.48, 0.2) },
   { id: 'translucent', name: 'Translucent', finish: matteClear('#f7f7f8', '#ffffff', 0.06, 0.9) },
   { id: 'orange', name: 'Orange', finish: solid('#ff5a1f', 0.04, 0.48, 0.2) },
   { id: 'lavender', name: 'Lavender', finish: solid('#c9b6ea', 0.04, 0.5, 0.2) },

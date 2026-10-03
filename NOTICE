@@ -1,0 +1,20 @@
+Application code in this repository is under the MIT License. See LICENSE.
+
+The laptop CAD is not part of that grant. It is published by Framework Computer Inc. and remains under Creative Commons Attribution 4.0 International.
+
+Framework Laptop 13 CAD
+Copyright (c) 2026 Framework Computer Inc.
+https://creativecommons.org/licenses/by/4.0/
+
+Source repository: https://github.com/FrameworkComputer/Framework-Laptop-13
+Source file: Framework Laptop 13 Pro CAD.stp
+
+Files in this repository derived from that CAD:
+
+- models-source/framework-laptop-13-pro.stp
+- models-source/framework-laptop-13-pro-full.glb
+- public/models/framework-laptop-13-pro.glb
+
+The STEP file is the published assembly. The glTF files are conversions made for browser rendering. The file in public/models is a reduced export. Those changes are noted here as required by CC BY 4.0.
+
+Framework is a trademark of Framework Computer Inc. This project is not affiliated with, endorsed by, or sponsored by Framework Computer Inc.

@@ -2,6 +2,17 @@
   "name": "framework-configurator",
   "private": true,
   "version": "0.0.0",
+  "description": "3D configurator for the Framework Laptop 13 Pro.",
+  "license": "MIT",
+  "author": "Oğuzhan Durgut",
+  "homepage": "https://framework.durguto.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/durguto/framework-configurator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/durguto/framework-configurator/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",

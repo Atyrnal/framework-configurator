@@ -1,0 +1,19 @@
+name: Feature request
+description: A change you want in the configurator.
+title: ""
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is missing, and who runs into it?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How should it behave?
+    validations:
+      required: true
