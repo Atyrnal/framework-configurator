@@ -112,6 +112,10 @@ export const useConfiguratorStore = create<ConfiguratorState & ConfiguratorActio
     set({ cameraPreset });
   },
 
+  releaseCamera: () => {
+    set({ cameraPreset: null });
+  },
+
   setEnvironment: (environment) => {
     set({ environment });
   },
