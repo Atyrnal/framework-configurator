@@ -71,6 +71,8 @@ export const BEZEL_OPTIONS: { id: BezelColor; name: string; finish: SurfaceFinis
   { id: 'lavender', name: 'Lavender', finish: solid('#c9b6ea', 0.04, 0.5, 0.2) },
   { id: 'gray', name: 'Gray', finish: solid('#8d929a', 0.06, 0.5, 0.2) },
   { id: 'translucent-orange', name: 'Translucent Orange', finish: matteClear('#ffb088', '#ff4d00', 0.22, 0.84) },
+  { id: 'translucent-red', name: 'Translucent Red', finish: matteClear('#ff5555', '#ff1111', 0.22, 0.84) },
+  { id: 'translucent-blue', name: 'Translucent Blue', finish: matteClear('#7799ff', '#2255ff', 0.22, 0.84) },
   { id: 'translucent-purple', name: 'Translucent Purple', finish: matteClear('#d7c4ff', '#7a3dff', 0.28, 0.84) },
   { id: 'translucent-green', name: 'Translucent Green', finish: matteClear('#b7f0c4', '#1fa85a', 0.28, 0.84) },
   { id: 'translucent-black', name: 'Translucent Black', finish: matteClear('#dedee2', '#b4b4b8', 0.06, 0.9) },
